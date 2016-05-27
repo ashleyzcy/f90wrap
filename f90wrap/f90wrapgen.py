@@ -216,6 +216,10 @@ end type %(typename)s_ptr_type""" % {'typename': tname})
             self.write('%(arg_type)s%(comma)s%(arg_attribs)s :: %(arg_name)s' % arg_dict)
             if hasattr(arg, 'f2py_line'):
                 self.write(arg.f2py_line)
+            elif all('intent' not in attr for attr in arg.attributes):  # add "default to 'inout' option selected" check here
+                # No f2py instruction and no explicit intent : force f2py to make it intent(inout) :
+                self.write('!f2py intent(inout) '+arg.name)
+
 
     def write_transfer_in_lines(self, node):
         """
