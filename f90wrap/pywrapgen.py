@@ -470,14 +470,14 @@ except ValueError:
         self.write('def %(intf_name)s(*args, **kwargs):' % dct)
         self.indent()
         self.write(format_doc_string(node))
-        # try to call each in turn until no TypeError raised
+        # try to call each in turn until no ValueError raised
         self.write('for proc in %(proc_names)s:' % dct)
         self.indent()
         self.write('try:')
         self.indent()
         self.write('return proc(*args, **kwargs)')
         self.dedent()
-        self.write('except TypeError:')
+        self.write('except ValueError:')
         self.indent()
         self.write('continue')
         self.dedent()
